@@ -20,6 +20,8 @@ import type { DesignScheme } from '~/types/design-scheme';
 import type { ElementInfo } from '~/components/workbench/Inspector';
 import { McpTools } from './MCPTools';
 import { WebSearch } from './WebSearch.client';
+import { DesignStyleSelector } from './DesignStyleSelector';
+import { useState } from 'react';
 
 interface ChatBoxProps {
   isModelSettingsCollapsed: boolean;
@@ -66,6 +68,20 @@ interface ChatBoxProps {
 }
 
 export const ChatBox: React.FC<ChatBoxProps> = (props) => {
+  const [isDesignStyleSelectorOpen, setIsDesignStyleSelectorOpen] = useState(false);
+
+  const handleSelectDesignStyle = (style: any) => {
+    const currentInput = props.textareaRef?.current?.value || '';
+    const newInput = currentInput
+      ? `${currentInput}\n\n${style.prompt_template}`
+      : style.prompt_template;
+
+    if (props.textareaRef?.current) {
+      props.textareaRef.current.value = newInput;
+      props.textareaRef.current.dispatchEvent(new Event('input', { bubbles: true }));
+    }
+  };
+
   return (
     <div
       className={classNames(
@@ -262,6 +278,13 @@ export const ChatBox: React.FC<ChatBoxProps> = (props) => {
         </ClientOnly>
         <div className="flex justify-between items-center text-sm p-4 pt-2">
           <div className="flex gap-1 items-center">
+            <IconButton
+              title="Design Styles"
+              className="transition-all"
+              onClick={() => setIsDesignStyleSelectorOpen(true)}
+            >
+              <div className="i-ph:palette text-xl"></div>
+            </IconButton>
             <ColorSchemeDialog designScheme={props.designScheme} setDesignScheme={props.setDesignScheme} />
             <McpTools />
             <IconButton title="Upload file" className="transition-all" onClick={() => props.handleFileUpload()}>
@@ -332,6 +355,11 @@ export const ChatBox: React.FC<ChatBoxProps> = (props) => {
           <ExpoQrModal open={props.qrModalOpen} onClose={() => props.setQrModalOpen(false)} />
         </div>
       </div>
+      <DesignStyleSelector
+        isOpen={isDesignStyleSelectorOpen}
+        onClose={() => setIsDesignStyleSelectorOpen(false)}
+        onSelectStyle={handleSelectDesignStyle}
+      />
     </div>
   );
 };
