@@ -4,8 +4,11 @@ import { workbenchStore } from '~/lib/stores/workbench';
 import { DeployButton } from '~/components/deploy/DeployButton';
 import { StarterTemplatesEnhanced } from '~/components/chat/StarterTemplatesEnhanced';
 import { EnhancedAPIKeyManager } from '~/components/chat/EnhancedAPIKeyManager';
+import { ReportIssueButton } from '~/components/user/ReportIssueButton';
+import { ShareShowcaseButton } from '~/components/user/ShareShowcaseButton';
 import { IconButton } from '~/components/ui/IconButton';
 import { toast } from 'react-toastify';
+import { useNavigate } from '@remix-run/react';
 
 interface HeaderActionButtonsProps {
   chatStarted: boolean;
@@ -17,6 +20,7 @@ export function HeaderActionButtons({ chatStarted: _chatStarted }: HeaderActionB
   const [apiKeysOpen, setApiKeysOpen] = useState(false);
   const previews = useStore(workbenchStore.previews);
   const activePreview = previews[activePreviewIndex];
+  const navigate = useNavigate();
 
   const shouldShowButtons = activePreview;
 
@@ -46,6 +50,26 @@ export function HeaderActionButtons({ chatStarted: _chatStarted }: HeaderActionB
       >
         <div className="i-ph:key text-lg" />
       </IconButton>
+
+      {/* Showcase Button */}
+      <IconButton
+        title="View Showcase"
+        onClick={() => navigate('/showcase')}
+        className="bg-bolt-elements-item-backgroundDefault hover:bg-bolt-elements-item-backgroundActive"
+      >
+        <div className="i-ph:star text-lg" />
+      </IconButton>
+
+      {/* Report Issue */}
+      <ReportIssueButton />
+
+      {/* Share to Showcase (when preview is active) */}
+      {shouldShowButtons && activePreview?.baseUrl && (
+        <ShareShowcaseButton
+          websiteUrl={activePreview.baseUrl}
+          websiteTitle="My Website"
+        />
+      )}
 
       {/* Deploy Button */}
       {shouldShowButtons && <DeployButton />}
