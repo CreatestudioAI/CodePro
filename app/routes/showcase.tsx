@@ -78,7 +78,7 @@ export default function ShowcasePage() {
   return (
     <div className="min-h-screen bg-bolt-elements-background-depth-1">
       {/* Header */}
-      <div className="bg-gradient-to-r from-purple-600 via-blue-600 to-cyan-600 text-white">
+      <div className="bg-gradient-to-r from-blue-700 via-blue-600 to-cyan-600 text-white">
         <div className="max-w-7xl mx-auto px-6 py-16">
           <h1 className="text-5xl font-bold mb-4">Community Showcase</h1>
           <p className="text-xl opacity-90">
@@ -172,7 +172,7 @@ function ShowcaseCard({ item }: { item: ShowcaseItem }) {
   return (
     <Card className="group overflow-hidden hover:shadow-xl transition-shadow">
       {/* Placeholder for screenshot */}
-      <div className="h-48 bg-gradient-to-br from-purple-500/20 via-blue-500/20 to-cyan-500/20 flex items-center justify-center relative overflow-hidden">
+      <div className="h-48 bg-gradient-to-br from-blue-500/20 via-teal-500/20 to-cyan-500/20 flex items-center justify-center relative overflow-hidden">
         <div className="i-ph:globe text-6xl opacity-20" />
         {item.featured && (
           <Badge className="absolute top-3 right-3 bg-yellow-500/90 text-yellow-900">
@@ -184,7 +184,7 @@ function ShowcaseCard({ item }: { item: ShowcaseItem }) {
 
       <div className="p-6 space-y-4">
         <div>
-          <h3 className="text-xl font-bold text-bolt-elements-textPrimary mb-2 group-hover:text-purple-500 transition-colors">
+          <h3 className="text-xl font-bold text-bolt-elements-textPrimary mb-2 group-hover:text-blue-500 transition-colors">
             {item.title}
           </h3>
           <p className="text-sm text-bolt-elements-textSecondary line-clamp-2">

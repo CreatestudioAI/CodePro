@@ -7,7 +7,7 @@ import { Input } from '~/components/ui/Input';
 import { Label } from '~/components/ui/Label';
 import { ScrollArea } from '~/components/ui/ScrollArea';
 import { Badge } from '~/components/ui/Badge';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '~/components/ui/Tabs';
+import { classNames } from '~/utils/classNames';
 import { toast } from 'react-toastify';
 
 interface APIService {
@@ -227,16 +227,25 @@ export function EnhancedAPIKeyManager({ isOpen, onClose }: EnhancedAPIKeyManager
           </div>
         </div>
 
-        <Tabs value={selectedCategory} onValueChange={setSelectedCategory}>
+        <div>
           <div className="px-6 pt-4 border-b border-bolt-elements-borderColor">
-            <TabsList className="flex gap-2 pb-4">
+            <div className="flex gap-2 pb-4 overflow-x-auto">
               {SERVICE_CATEGORIES.map((category) => (
-                <TabsTrigger key={category.id} value={category.id} className="flex items-center gap-2 px-3 py-2">
+                <button
+                  key={category.id}
+                  onClick={() => setSelectedCategory(category.id)}
+                  className={classNames(
+                    'flex items-center gap-2 px-3 py-2 rounded-lg whitespace-nowrap text-sm font-medium transition-colors',
+                    selectedCategory === category.id
+                      ? 'bg-bolt-elements-background-depth-3 text-bolt-elements-textPrimary'
+                      : 'text-bolt-elements-textSecondary hover:text-bolt-elements-textPrimary hover:bg-bolt-elements-background-depth-2',
+                  )}
+                >
                   <span>{category.icon}</span>
                   <span>{category.label}</span>
-                </TabsTrigger>
+                </button>
               ))}
-            </TabsList>
+            </div>
           </div>
 
           <ScrollArea className="h-[55vh] p-6">
@@ -285,7 +294,7 @@ export function EnhancedAPIKeyManager({ isOpen, onClose }: EnhancedAPIKeyManager
               ))}
             </div>
           </ScrollArea>
-        </Tabs>
+        </div>
 
         <div className="p-6 border-t border-bolt-elements-borderColor bg-bolt-elements-background-depth-2">
           <div className="flex items-center justify-between">

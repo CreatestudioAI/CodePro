@@ -4,8 +4,8 @@ import * as RadixDialog from '@radix-ui/react-dialog';
 import { motion } from 'framer-motion';
 import { Button } from '~/components/ui/Button';
 import { ScrollArea } from '~/components/ui/ScrollArea';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '~/components/ui/Tabs';
 import { Badge } from '~/components/ui/Badge';
+import { classNames } from '~/utils/classNames';
 
 interface StarterTemplate {
   id: string;
@@ -132,22 +132,25 @@ export function StarterTemplatesEnhanced({ isOpen, onClose, onSelectTemplate }: 
           </div>
         </div>
 
-        <Tabs value={selectedCategory} onValueChange={setSelectedCategory} className="flex-1">
+        <div className="flex-1">
           <div className="px-6 pt-4 border-b border-bolt-elements-borderColor bg-bolt-elements-background-depth-2">
-            <ScrollArea className="w-full">
-              <TabsList className="flex gap-2 pb-4">
-                {TEMPLATE_CATEGORIES.map((category) => (
-                  <TabsTrigger
-                    key={category.id}
-                    value={category.id}
-                    className="flex items-center gap-2 px-4 py-2 rounded-lg whitespace-nowrap"
-                  >
-                    <span>{category.icon}</span>
-                    <span>{category.label}</span>
-                  </TabsTrigger>
-                ))}
-              </TabsList>
-            </ScrollArea>
+            <div className="flex gap-2 pb-4 overflow-x-auto">
+              {TEMPLATE_CATEGORIES.map((category) => (
+                <button
+                  key={category.id}
+                  onClick={() => setSelectedCategory(category.id)}
+                  className={classNames(
+                    'flex items-center gap-2 px-4 py-2 rounded-lg whitespace-nowrap text-sm font-medium transition-colors',
+                    selectedCategory === category.id
+                      ? 'bg-bolt-elements-background-depth-3 text-bolt-elements-textPrimary'
+                      : 'text-bolt-elements-textSecondary hover:text-bolt-elements-textPrimary hover:bg-bolt-elements-background-depth-2',
+                  )}
+                >
+                  <span>{category.icon}</span>
+                  <span>{category.label}</span>
+                </button>
+              ))}
+            </div>
           </div>
 
           <ScrollArea className="h-[65vh] p-6">
@@ -196,7 +199,7 @@ export function StarterTemplatesEnhanced({ isOpen, onClose, onSelectTemplate }: 
               </div>
             )}
           </ScrollArea>
-        </Tabs>
+        </div>
 
         <div className="p-6 border-t border-bolt-elements-borderColor bg-bolt-elements-background-depth-2">
           <div className="flex items-center justify-between">
@@ -233,7 +236,7 @@ function TemplateCard({
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
-      <div className="h-48 w-full bg-gradient-to-br from-purple-500/20 via-blue-500/20 to-pink-500/20 relative overflow-hidden flex items-center justify-center">
+      <div className="h-48 w-full bg-gradient-to-br from-blue-500/20 via-teal-500/20 to-green-500/20 relative overflow-hidden flex items-center justify-center">
         <div className="text-6xl opacity-30">{TEMPLATE_CATEGORIES.find((c) => c.id === template.category)?.icon}</div>
         {isHovered && (
           <div className="absolute inset-0 bg-black/60 flex items-center justify-center transition-all backdrop-blur-sm">

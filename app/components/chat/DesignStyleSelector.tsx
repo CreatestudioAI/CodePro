@@ -5,7 +5,6 @@ import { motion } from 'framer-motion';
 import { classNames } from '~/utils/classNames';
 import { Button } from '~/components/ui/Button';
 import { ScrollArea } from '~/components/ui/ScrollArea';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '~/components/ui/Tabs';
 import { Badge } from '~/components/ui/Badge';
 
 interface DesignStyle {
@@ -140,22 +139,25 @@ export function DesignStyleSelector({ isOpen, onClose, onSelectStyle }: DesignSt
           </p>
         </div>
 
-        <Tabs value={selectedCategory} onValueChange={setSelectedCategory} className="flex-1">
+        <div className="flex-1">
           <div className="px-6 pt-4 border-b border-bolt-elements-borderColor">
-            <ScrollArea className="w-full">
-              <TabsList className="flex gap-2 pb-4">
-                {STYLE_CATEGORIES.map((category) => (
-                  <TabsTrigger
-                    key={category.id}
-                    value={category.id}
-                    className="flex items-center gap-2 px-4 py-2 rounded-lg whitespace-nowrap"
-                  >
-                    <span>{category.icon}</span>
-                    <span>{category.label}</span>
-                  </TabsTrigger>
-                ))}
-              </TabsList>
-            </ScrollArea>
+            <div className="flex gap-2 pb-4 overflow-x-auto">
+              {STYLE_CATEGORIES.map((category) => (
+                <button
+                  key={category.id}
+                  onClick={() => setSelectedCategory(category.id)}
+                  className={classNames(
+                    'flex items-center gap-2 px-4 py-2 rounded-lg whitespace-nowrap text-sm font-medium transition-colors',
+                    selectedCategory === category.id
+                      ? 'bg-bolt-elements-background-depth-3 text-bolt-elements-textPrimary'
+                      : 'text-bolt-elements-textSecondary hover:text-bolt-elements-textPrimary hover:bg-bolt-elements-background-depth-2',
+                  )}
+                >
+                  <span>{category.icon}</span>
+                  <span>{category.label}</span>
+                </button>
+              ))}
+            </div>
           </div>
 
           <ScrollArea className="h-[60vh] p-6">
@@ -238,7 +240,7 @@ export function DesignStyleSelector({ isOpen, onClose, onSelectStyle }: DesignSt
               </div>
             )}
           </ScrollArea>
-        </Tabs>
+        </div>
 
         <div className="p-6 border-t border-bolt-elements-borderColor bg-bolt-elements-background-depth-2">
           <div className="flex items-center justify-between">
